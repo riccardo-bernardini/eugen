@@ -1,0 +1,80 @@
+===========
+== Index ==
+===========
+
+  1. What is this?
+  2. What can I do with it?
+  3. Cool! How do I install/use it? 
+
+===================
+== What is this? ==
+===================
+
+This is the site of SymExpr, a generic Ada package that allow you some manipulation of "symbolic expressions."  
+
+---------------------------
+--  Why did you write it?--
+---------------------------
+
+I initially wrote this piece of code for another program of mine,
+aimed to simplify the creation of a GANNT chart.  My idea was to allow
+the user to specify the beginning and the end of the activities by
+giving constraints like "WP 4 will begin two months before the end of
+both WP 3 and WP 2." After finishing writing the code, I discovered
+that with minimal effort I could have made it a stand-alone package,
+so I did and SymExpr was born.
+
+============================
+== What can I do with it? ==
+============================
+
+The expressions handled by SymExpr have the usual form with the four
+operations (+, -, * and /), the two unary operators (+ and -),
+function calls, variables and parenthesis. The package is a generic
+package parameterized by the type of the "values" used in the
+expressions (called "scalars" in the code), so you can have
+expressions of floats, of integers, but also of dates (my case),
+complexes, and so on...
+
+  *  You can create new expressions by parsing strings
+
+         X := Parse("foo+(bar-3)*max(bar, foo)")
+
+  *  You can build expressions using constructors and operators, for 
+     example  
+
+         X := Variable("x");
+         Y := X*X - 2*X + 1;
+
+  *  You can replace variables with scalars or other expressions, for
+     example, 
+
+         -- Replace every occurence of "x" in Y with 42
+         U := Replace(Y, "x", 42); 
+
+         -- Makes V equal to (X*X)*(X*X) - 2*(X*X) + 1
+         V := Replace(Y, "x", X*X);
+
+  *  You can evaluate an expression without variables to a scalar.
+     For example, to plot a graph of Y you could use
+
+         for I in -10..10 loop
+           Plot(I, Eval(Replace(Y, "x", I)));
+         end loop;
+
+=====================================         
+== Cool! How do I install/use it?  ==
+=====================================
+
+Easy:
+
+  1.  Get the code from launchpad
+
+            https://launchpad.net/symexpr
+
+  2.  Decompress the archive in a place searched from your compiler
+
+  3.  Instantiate a concrete package from symbolic_expressions.ads
+
+
+You can find more info inside symbolic_expressions.ads

@@ -1,0 +1,23 @@
+project Symexpr is
+
+   for Source_Dirs use (".");
+   for Object_Dir use "obj/";
+
+   package Ide is
+      for Documentation_Dir use "doc/";
+   end Ide;
+
+   package Builder is
+      for Default_Switches ("ada") use ("-s", "-g");
+   end Builder;
+
+   package Compiler is
+      for Default_Switches ("ada") use ("-gnatwa", "-g", "-gnata", "-gnat05", "-fstack-check", "-gnatp", "-gnatVn", "-gnato", "-fcallgraph-info=su,da", "-gnatE", "-ftest-coverage", "-fprofile-arcs");
+   end Compiler;
+
+   package Linker is
+      for Default_Switches ("ada") use ("-g", "-fprofile-generate");
+   end Linker;
+
+end Symexpr;
+

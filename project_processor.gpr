@@ -1,0 +1,74 @@
+with "xmlada";
+
+project Project_Processor is
+
+   for Object_Dir use "obj";
+   type Xmlada_Kind_Type is
+      ("static", "relocatable");
+   Library_Type : Xmlada_Kind_Type := external ("LIBRARY_TYPE", "static");
+   type Build_Kind is
+      ("static", "relocatable", "static-pic");
+   Xmlada_Build : Build_Kind := external ("XMLADA_BUILD");
+
+   case Library_Type is
+
+      when "static" =>
+
+         case Xmlada_Build is
+
+            when "static" =>
+               for Main use ("project_processor-main.adb", "prova_parser.adb", "test_config_string_parsers.adb");
+               for Source_Dirs use ("src", "src/Projects", "src/Sym_Expr", "src/Plugin_Tables", "src/Parsers", "src/Parsers/XML", "src/Processors", "src/Command_Line", "src/Utilities", "src/Line_Array/src", "src/Parsers/Simple", 
+                  "src/Processors/Dump", "src/Processors/LaTeX");
+
+            when "relocatable" =>
+               for Main use ("project_processor-main.adb", "prova_parser.adb", "test_config_string_parsers.adb");
+               for Source_Dirs use ("src", "src/Projects", "src/Sym_Expr", "src/Plugin_Tables", "src/Parsers", "src/Parsers/XML", "src/Processors", "src/Command_Line", "src/Utilities", "src/Line_Array/src", "src/Parsers/Simple", 
+                  "src/Processors/Dump", "src/Processors/LaTeX");
+
+            when "static-pic" =>
+               for Main use ("project_processor-main.adb", "prova_parser.adb", "test_config_string_parsers.adb");
+               for Source_Dirs use ("src", "src/Projects", "src/Sym_Expr", "src/Plugin_Tables", "src/Parsers", "src/Parsers/XML", "src/Processors", "src/Command_Line", "src/Utilities", "src/Line_Array/src", "src/Parsers/Simple", 
+                  "src/Processors/Dump", "src/Processors/LaTeX");
+         end case;
+
+      when "relocatable" =>
+         for Main use ("project_processor-main.adb", "prova_parser.adb", "test_config_string_parsers.adb");
+         for Source_Dirs use ("src", "src/Projects", "src/Sym_Expr", "src/Plugin_Tables", "src/Parsers", "src/Parsers/XML", "src/Processors", "src/Command_Line", "src/Utilities", "src/Line_Array/src", "src/Parsers/Simple", 
+            "src/Processors/Dump", "src/Processors/LaTeX");
+   end case;
+
+   package Compiler is
+
+      case Xmlada_Build is
+
+         when "static" =>
+
+            case Library_Type is
+
+               when "static" =>
+                  for Switches ("ada") use ("-gnatwa", "-g", "-gnata", "-gnat12");
+
+               when "relocatable" =>
+
+            end case;
+
+         when "relocatable" =>
+
+         when "static-pic" =>
+
+      end case;
+      
+      for Local_Configuration_Pragmas use "gnat.adc";
+   end Compiler;
+
+   package Builder is
+      for Switches ("ada") use ("-s");
+   end Builder;
+
+   package Binder is
+      for Switches ("ada") use ("-E");
+   end Binder;
+
+end Project_Processor;
+

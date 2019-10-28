@@ -1,0 +1,8 @@
+  1.  Get the code from launchpad
+
+            https://launchpad.net/symexpr
+
+  2.  Decompress the archive in a place searched from your compiler
+
+  3.  Instantiate a concrete package from symbolic_expressions.ads
+
