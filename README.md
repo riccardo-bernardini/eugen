@@ -18,3 +18,5 @@ If you increase, say, the duration of a given task you can experience a ripple o
 Personally, I _hate_ (to be read with the voice of [Grouchy Smurf](https://smurfs.fandom.com/wiki/Grouchy_Smurf) :smile:) this kind of "walking on eggs" uncertainity (why do you think I program in Ada?). Moreover, I _hate_ repetitive tasks and one day I got sick and wrote this fairly big piece of code (the content of `src/` directory is slight more than 1 Mbyte).  
 
 I recently used it to write a EU research proposal and it served me well. Although the research proposal is being reviewed (so I do not know if it will get funded or not),  it changed my life.
+
+# Conceptual model
