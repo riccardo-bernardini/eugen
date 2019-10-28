@@ -15,4 +15,6 @@ If you had any experience with writing research projects, certanly you noticed t
 
 If you increase, say, the duration of a given task you can experience a ripple of changes since dependent tasks will begin later, effort in PM can change, deliverables produced by the task will appear later, corresponding milestones will change, the GANTT will change too...  Forgetting something is just too easy and, given the highly competitive nature of EU funding, any mismatch will be a death sentence for your project.
 
-Personally, I _hate_ (to be read with the voice of [Grouchy Smurf](https://smurfs.fandom.com/wiki/Grouchy_Smurf) :smile:) this kind of "walking on eggs" uncertainity (why do you think I program in Ada?)
+Personally, I _hate_ (to be read with the voice of [Grouchy Smurf](https://smurfs.fandom.com/wiki/Grouchy_Smurf) :smile:) this kind of "walking on eggs" uncertainity (why do you think I program in Ada?). Moreover, I _hate_ repetitive tasks and one day I got sick and wrote this fairly big piece of code (the content of `src/` directory is slight more than 1 Mbyte).  
+
+I recently used it to write a EU research proposal and it served me well. Although the research proposal is being reviewed (so I do not know if it will get funded or not),  it changed my life.
