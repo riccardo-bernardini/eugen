@@ -1,5 +1,5 @@
 
-project Project_Processor is
+project EUgen is
 
    for Object_Dir use "obj";
 
@@ -20,5 +20,5 @@ project Project_Processor is
       for Switches ("ada") use ("-E");
    end Binder;
 
-end Project_Processor;
+end eugen;
 
