@@ -14,7 +14,6 @@ package body Project_Processor.Configuration is
    package Multi_String_Receivers is
          new Line_Parsers.Receivers.Multi_Receivers (Line_Parsers.Receivers.String_Receiver);
 
-   --     Call_List : Call_Lists.Vector;
 
    Input_File   : aliased Line_Parsers.Receivers.String_Receiver;
    Format       : aliased Line_Parsers.Receivers.String_Receiver;
