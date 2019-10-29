@@ -216,20 +216,3 @@ package body Project_Processor.Configuration is
 end Project_Processor.Configuration;
 
 
---
---
---           end if;
---        case Name_And_Tail'Length is
---           when 0 =>
---              raise Bad_Command_Line with "Empty processor specs";
---
---           when 1 =>
---              Plugin_Name := To_Name (Name_And_Tail (Name_And_Tail'First));
---              Parameters.Clear;
---
---           when 2 =>
---              Plugin_Name := To_Name (Name_And_Tail (Name_And_Tail'First));
---
---           when others =>
---              raise Program_Error;
---        end case;
