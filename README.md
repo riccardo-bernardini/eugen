@@ -1,11 +1,13 @@
-# What is Eugen?
+# Eugen: research project generator
+
+## What is Eugen?
 A generator of research project plan. It allows you to generate a full plan from a compact, not redundant description. 
 
-I wrote it one day that I got sick of chasing refernces and updating efforts every time a small update was done. 
+I wrote it one day that I got sick of chasing references and updating efforts every time a small update was done. 
 
 The name is from "EU GENerator" since in its current form it outputs project description in a way compatible with EU research project, but it should be flexible enough to be used even in other contexts. 
 
-# Motivation (Why did you write it?)
+## Motivation (Why did you write it?)
 
 If you had any experience with writing research projects, certainly you noticed that the project description is quite redundant.  For example, 
 * For every work-package (WP) you need to write the effort (in person month -- PM) of every partner and, moreover, summarize the efforts in a table work-package vs. partner, with the total effort per partner and per WP.
@@ -17,9 +19,9 @@ If you increase, say, the duration of a given task you can experience a ripple o
 
 Personally, I _hate_ (to be read with the voice of [Grouchy Smurf](https://smurfs.fandom.com/wiki/Grouchy_Smurf) :smile:) this kind of "walking on eggs" uncertainty (why do you think I program in Ada?). Moreover, I _hate_ repetitive tasks and one day I got sick and wrote this fairly big piece of code (the content of `src/` directory is slight more than 1 Mbyte).
 
-I recently used it to write a EU research proposal and it served me well. Although the research proposal is being reviewed (so I do not know if it will get funded or not),  it changed my life.
+I recently used it to write a EU research proposal and it served me well. Although the research proposal is being reviewed (so I do not know if it will get funded or not),  it helped me **a lot**.
 
-# Conceptual model
+## Conceptual model
 
 The model of project used in this software is very classical
 * The project involves one or more _partners_
@@ -39,4 +41,18 @@ The model of project used in this software is very classical
   * a name and an optional short name (that can be used in contexts where space is scarce)
   * a label (for cross-reference)
   
+## How do I use it?
+
+In order to explain how to use the program it is worth describing briefly its internal structure.  The program internally has three internal stages
+
+```mermaid
+graph LR
+    Description --> Parser --> Internal form --> Processor --> Output files
+```
+
+* The frontend of the program is a *Parser* that reads an external description of the project and converts it in an *internal format*
+* The internal format is handed to a *Processor* that outputs one or more files with the project description. Currently several LaTeX files with WP description, deliverable list, GANTT, ... are produced
+
+Both *parser* and *processor* are *plugin-based*.  
+
 
