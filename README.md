@@ -53,6 +53,6 @@ graph LR
 * The frontend of the program is a *Parser* that reads an external description of the project and converts it in an *internal format*
 * The internal format is handed to a *Processor* that outputs one or more files with the project description. Currently several LaTeX files with WP description, deliverable list, GANTT, ... are produced
 
-Both *parser* and *processor* are *plugin-based*.  
+Both *parser* and *processor* are *plugin-based*.  This means that parsers and processors are internally represented as tagged types implementing  a specific *interface*.  This allows one to easily add 
 
 
