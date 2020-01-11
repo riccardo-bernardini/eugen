@@ -27,26 +27,18 @@ with Project_Processor.Processors.LaTeX;
 pragma Warnings (On);
 procedure Project_Processor.Main is
    Project : Project_Descriptor;
+   Current_Processor : Processors.Processor_ID;
 
    procedure Do_Call (Call : Configuration.Processing_Call) is
       Unknown_Processor : exception;
 
---        function Find_Processor (ID : Processor_ID)
---                                 return Abstract_Processor'Class
---        is
---           P : constant String := To_String (ID);
---        begin
---           if P = "dump" then
---              return Processors.Dumping.Create (Plugins.Empty_Map);
---
---           else
---              raise Unknown_Processor;
---           end if;
---        end Find_Processor;
    begin
       if not Processor_Tables.Exists (Call.Name) then
-         raise Unknown_Processor;
+         raise Unknown_Processor
+           with Project_Processor.Processors.Image (Call.Name);
       end if;
+
+      Current_Processor := Call.Name;
 
       declare
          Proc : Abstract_Processor'Class :=
@@ -95,5 +87,13 @@ exception
    when E : EU_Projects.Bad_Input | Parsing_Error =>
       Put_Line (Standard_Error,
                 "Bad Project Specs : " & Exceptions.Exception_Message (E));
+
+   when E : Project_Processor.Processors.Processor_Error =>
+      Put_Line (Standard_Error,
+                "Error in "
+                & Processors.Image (Current_Processor)
+                & " processor : "
+                & Exceptions.Exception_Message (E));
+
 
 end Project_Processor.Main;

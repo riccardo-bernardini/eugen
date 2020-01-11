@@ -1,6 +1,7 @@
 with EU_Projects.Times.Time_Expressions.Solving;
 with EU_Projects.Projects.Housekeeping;
 with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Exceptions;
 
 package body EU_Projects.Projects is
 
@@ -451,8 +452,9 @@ package body EU_Projects.Projects is
 
       Project.Freezed := True;
    exception
-      when Housekeeping.Housekeeping_Failed =>
-         raise Bad_Input with "Post-processing failed";
+      when Error: Housekeeping.Housekeeping_Failed =>
+         raise Bad_Input
+           with  Ada.Exceptions.Exception_Message (Error);
    end Freeze;
 
 end EU_Projects.Projects;

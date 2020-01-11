@@ -321,8 +321,14 @@ package body Project_Processor.Processors.LaTeX is
 
       function Short_Name (X : Partners.Partner_Label) return String
       is
+         N : constant Node_Access := Input.Find (Node_Label (X));
       begin
-         return Input.Find (Node_Label (X)).Short_Name;
+         if N = null then
+            raise Processor_Error
+              with "Unknown partner '" & Image (Node_Label (X)) & "'";
+         else
+            return N.Short_Name;
+         end if;
       end Short_Name;
 
       procedure Write_WP_Header (Output : File_Access;

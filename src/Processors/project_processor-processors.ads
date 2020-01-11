@@ -14,6 +14,9 @@ package Project_Processor.Processors is
    function To_Id (X : String) return Processor_ID
    is (Processor_ID (Processor_Names.To_Bounded_String (X)));
 
+   function Image (X : Processor_ID) return String
+   is (Processor_Names.To_String (Processor_Names.Bounded_String(X)));
+
     type Abstract_Processor is interface;
 
 
@@ -26,4 +29,5 @@ package Project_Processor.Processors is
       Input     : EU_Projects.Projects.Project_Descriptor)
    is abstract;
 
+   Processor_Error : exception;
 end Project_Processor.Processors;

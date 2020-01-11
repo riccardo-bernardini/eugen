@@ -3,6 +3,7 @@ with EU_Projects.Nodes;       use EU_Projects.Nodes;
 --  with Ada.Text_IO; use Ada.Text_IO;
 with EU_Projects.Times.Time_Expressions.Parsing;
 with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Exceptions;
 
 package body EU_Projects.Projects.Housekeeping is
 
@@ -89,8 +90,17 @@ package body EU_Projects.Projects.Housekeeping is
          end;
       end loop;
 
-      for N in Project.All_Nodes (True) loop
-         Element (N).Parse_Raw_Expressions (Symbols);
+      for N in Project.all_Nodes (True) loop
+         begin
+            Element (N).Parse_Raw_Expressions (Symbols);
+         exception
+            when Error : others =>
+               raise Housekeeping_Failed
+                 with "Error while parsing times of '"
+                 & Element (N).Name
+                 & "' : "
+                 & Ada.Exceptions.Exception_Message (Error);
+         end;
 
          declare
             Vars : constant Nodes.Variable_List := Element (N).Variables;

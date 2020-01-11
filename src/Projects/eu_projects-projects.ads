@@ -86,11 +86,12 @@ package EU_Projects.Projects is
    Duplicated_Label : exception;
 
 
+
    function Find (Where : Project_Descriptor;
                   Label : Nodes.Node_Label)
                   return Nodes.Node_Access;
    --  Search for a child with the given name and return it
-   --  Return No_Child if the child does not exist
+   --  Return null if the child does not exist
 
    function Exists (Where : Project_Descriptor;
                     Label : Nodes.Node_Label)
