@@ -472,7 +472,8 @@ package body Node_List_Parsers is
          case Ck.Class is
             when Mandatory_Class =>
                if not Node.Attributes.Contains (Ck.Attribute) then
-                  raise Missing_Mandatory with Bounded_Identifiers.To_String (Ck.Attribute);
+                  raise Missing_Mandatory
+                    with Bounded_Identifiers.To_String (Ck.Attribute);
                end if;
 
             when Default_Class =>

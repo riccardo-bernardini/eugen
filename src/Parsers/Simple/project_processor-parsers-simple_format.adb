@@ -20,6 +20,8 @@ with EU_Projects.Node_Tables;
 with EU_Projects.Nodes.Timed_Nodes.Project_Infos;
 
 with Tokenize.Token_Vectors;
+with Ada.Exceptions;
+with Ada.Strings.Unbounded;   use Ada.Strings.Unbounded;
 --  with Eu_Projects.Event_Names;
 
 package body Project_Processor.Parsers.Simple_Format is
@@ -34,6 +36,47 @@ package body Project_Processor.Parsers.Simple_Format is
      new Node_List_Parsers (Node_Class, EU_Projects.Bounded_Identifiers);
 
    use Node_Parser;
+
+   package Node_Images is
+      -- This micro-package records the "name" (class and actual name) of
+      -- the node currently being parsed.  This is necessary to produce
+      -- error messages that are fairly meaningful
+
+
+      procedure Set_Current_Node (X : Node_Type);
+
+      function Current_Node_Name return String;
+   private
+
+      type Node_Image is
+         record
+            Class : Node_Class;
+            Name  : Unbounded_String;
+         end record;
+
+      Current_Node : Node_Image;
+
+      function Current_Node_Name return String
+      is (Node_Class'Image (Current_Node.Class)
+          & " """
+          & To_String (Current_Node.Name)
+          & """");
+   end Node_Images;
+
+   package body Node_Images is
+
+      procedure Set_Current_Node (X : Node_Type)
+      is
+      begin
+         Current_Node :=
+           (Class =>  X.Class,
+            Name  => To_Unbounded_String
+              (if X.Contains (To_ID ("name")) then
+                    X.Value ("name")
+               else
+                  "<Unknown>"));
+      end Set_Current_Node;
+   end Node_Images;
 
 
    function Deliverable_Type_Check is
@@ -69,7 +112,7 @@ package body Project_Processor.Parsers.Simple_Format is
 
    Milestone_Checker   : constant Attribute_Checker := Event_Checker
                            + Default ("verification", "");
---                             + Default ("deliverables", "");
+   --                             + Default ("deliverables", "");
 
    Deliverable_Checker : constant Attribute_Checker := Event_Checker
                            + Default ("tasks", "")
@@ -149,6 +192,8 @@ package body Project_Processor.Parsers.Simple_Format is
       Deliv_Node : Node_Type := Peek (Node_Seq);
       This_Deliv : Deliverable_Access;
    begin
+      Node_Images.Set_Current_Node (Deliv_Node);
+
       Next (Node_Seq);
       Check (Deliverable_Checker, Deliv_Node);
 
@@ -210,6 +255,8 @@ package body Project_Processor.Parsers.Simple_Format is
       Task_Node : Node_Type := Peek (Nodes);
       This_Task : Project_Task_Access;
    begin
+      Node_Images.Set_Current_Node (Task_Node);
+
       Check (Task_Checker, Task_Node);
 
       Next (Nodes);
@@ -260,6 +307,8 @@ package body Project_Processor.Parsers.Simple_Format is
 
       This_Wp  : Project_WP_Access;
    begin
+      Node_Images.Set_Current_Node (WP_Node);
+
       Check (WP_Checker, Wp_Node);
 
       if  Project.Find (To_ID (WP_Node ("leader"))) = null then
@@ -302,6 +351,8 @@ package body Project_Processor.Parsers.Simple_Format is
 
       Role_Node : Node_Type := Peek (Nodes);
    begin
+      Node_Images.Set_Current_Node (Role_Node);
+
       Next (Nodes);
 
       Check (Role_Checker, Role_Node);
@@ -323,6 +374,8 @@ package body Project_Processor.Parsers.Simple_Format is
       Partner_Node : Node_Type := Peek (Nodes);
       This_Partner : Partner_Access;
    begin
+      Node_Images.Set_Current_Node (Partner_Node);
+
       Next (Nodes);
 
       Check (Partner_Checker, Partner_Node);
@@ -352,6 +405,8 @@ package body Project_Processor.Parsers.Simple_Format is
       This_Node     : Node_Type := Peek (Nodes);
       This_Metadata : Info_Access;
    begin
+      Node_Images.Set_Current_Node (This_Node);
+
       Next (Nodes);
 
       Check (Project_Checker, This_Node);
@@ -381,6 +436,8 @@ package body Project_Processor.Parsers.Simple_Format is
       Milestone_Node : Node_Type := Peek (Nodes);
       This_Milestone : Milestone_Access;
    begin
+      Node_Images.Set_Current_Node (Milestone_Node);
+
       Next (Nodes);
       Check (Milestone_Checker, Milestone_Node);
 
@@ -451,6 +508,20 @@ package body Project_Processor.Parsers.Simple_Format is
             Parse_Top_Level (Nodes, Project);
          end loop;
       end;
+   exception
+      when Error : Node_Parser.Missing_Alternative =>
+         raise Parsing_Error
+           with "Missing alternative in project spec: "
+           & Ada.Exceptions.Exception_Message (Error)
+           & " at node "
+           & Node_Images.Current_Node_Name;
+
+      when Error : Node_Parser.Missing_Mandatory =>
+         raise Parsing_Error
+           with "Missing mandatory field in project spec: "
+           & Ada.Exceptions.Exception_Message (Error)
+           & " at node "
+           & Node_Images.Current_Node_Name;
    end Parse;
 begin
    Parser_Tables.Register (ID  => "simple",
