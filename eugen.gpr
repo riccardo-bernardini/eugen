@@ -2,7 +2,7 @@
 project EUgen is
 
    for Object_Dir use "obj";
-
+   for Exec_Dir   use "bin";
    for Main use ("project_processor-main.adb");
    for Source_Dirs use ("src", "src/Projects", "src/Sym_Expr", "src/Plugin_Tables", "src/Parsers", "src/Parsers/XML", "src/Processors", "src/Command_Line", "src/Utilities", "src/Line_Array/src", "src/Parsers/Simple", 
                         "src/Processors/Dump", "src/Processors/LaTeX");
@@ -14,6 +14,7 @@ project EUgen is
    
    package Builder is
       for Switches ("ada") use ("-s");
+      for Executable("project_processor-main") use "eugen";
    end Builder;
 
    package Binder is

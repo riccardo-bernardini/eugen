@@ -22,7 +22,7 @@ package EU_Projects.Times.Time_Expressions.Parsing is
    procedure Fill_With_Defaults (Container : in out Symbol_Table);
 
    procedure Define_Variable (Container  : in out Symbol_Table;
-                              Name       : Dotted_Identifier);
+                              Name       : Simple_Identifier);
    --  Declare a variable with the given name
 
    procedure Define_Function (Container  : in out Symbol_Table;
