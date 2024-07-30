@@ -47,7 +47,7 @@ In order to explain how to use the program it is worth describing briefly its in
 
 ```mermaid
 graph LR
-    Description --> Parser --> Internal form --> Processor --> Output files
+    Description --> Parser --> I[Internal form] --> Processor --> O[Output files]
 ```
 
 * The frontend of the program is a *Parser* that reads an external description of the project and converts it in an *internal format*
